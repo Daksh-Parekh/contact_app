@@ -39,7 +39,9 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.pushNamed(context, AppRoutes.addContactPage);
+        },
         child: Icon(Icons.add),
       ),
     );
