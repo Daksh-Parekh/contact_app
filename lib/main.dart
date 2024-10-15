@@ -1,5 +1,7 @@
 import 'package:contact_app/routes/app_routes.dart';
+import 'package:contact_app/views/counter/provider/counter_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(MyApp());
@@ -15,48 +17,55 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      routes: AppRoutes.routes,
-      theme: ThemeData(
-        // scaffoldBackgroundColor: Colors.red,
-        colorSchemeSeed: Colors.teal,
-        appBarTheme: AppBarTheme(
-          centerTitle: true,
-          backgroundColor: Colors.cyan,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider.value(
+          value: CounterProvider(),
         ),
-        textTheme: TextTheme(
-          headlineLarge: TextStyle(
-            fontSize: 30,
-            fontWeight: FontWeight.bold,
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        routes: AppRoutes.routes,
+        theme: ThemeData(
+          // scaffoldBackgroundColor: Colors.red,
+          colorSchemeSeed: Colors.teal,
+          appBarTheme: AppBarTheme(
+            centerTitle: true,
+            backgroundColor: Colors.cyan,
           ),
-          headlineMedium: TextStyle(
-            fontSize: 20,
-            fontStyle: FontStyle.italic,
+          textTheme: TextTheme(
+            headlineLarge: TextStyle(
+              fontSize: 30,
+              fontWeight: FontWeight.bold,
+            ),
+            headlineMedium: TextStyle(
+              fontSize: 20,
+              fontStyle: FontStyle.italic,
+            ),
+          ),
+          elevatedButtonTheme: ElevatedButtonThemeData(
+            style: ButtonStyle(
+              backgroundColor: WidgetStatePropertyAll(Colors.red),
+            ),
           ),
         ),
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ButtonStyle(
-            backgroundColor: WidgetStatePropertyAll(Colors.red),
+        themeMode: ThemeMode.system,
+        darkTheme: ThemeData(
+          colorSchemeSeed: Colors.deepPurple,
+          brightness: Brightness.dark,
+          appBarTheme: AppBarTheme(
+            centerTitle: true,
+            backgroundColor: Colors.teal,
           ),
-        ),
-      ),
-      themeMode: ThemeMode.system,
-      darkTheme: ThemeData(
-        colorSchemeSeed: Colors.deepPurple,
-        brightness: Brightness.dark,
-        appBarTheme: AppBarTheme(
-          centerTitle: true,
-          backgroundColor: Colors.teal,
-        ),
-        textTheme: TextTheme(
-          headlineLarge: TextStyle(
-            fontSize: 30,
-            fontWeight: FontWeight.bold,
-          ),
-          headlineMedium: TextStyle(
-            fontSize: 20,
-            fontStyle: FontStyle.italic,
+          textTheme: TextTheme(
+            headlineLarge: TextStyle(
+              fontSize: 30,
+              fontWeight: FontWeight.bold,
+            ),
+            headlineMedium: TextStyle(
+              fontSize: 20,
+              fontStyle: FontStyle.italic,
+            ),
           ),
         ),
       ),

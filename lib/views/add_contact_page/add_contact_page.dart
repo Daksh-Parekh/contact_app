@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:contact_app/routes/app_routes.dart';
 import 'package:contact_app/util/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -108,6 +109,13 @@ class _AddContactPageState extends State<AddContactPage> {
             ),
           ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          Navigator.pushNamed(context, AppRoutes.counterProvider);
+        },
+        icon: const Icon(Icons.add),
+        label: const Text("Add"),
       ),
     );
   }
