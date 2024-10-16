@@ -1,6 +1,6 @@
 import 'package:contact_app/views/add_contact_page/add_contact_page.dart';
 import 'package:contact_app/views/counter/views/counter.dart';
-import 'package:contact_app/views/home_page/homePage.dart';
+import 'package:contact_app/views/home_page/views/homePage.dart';
 import 'package:flutter/material.dart';
 
 class AppRoutes {

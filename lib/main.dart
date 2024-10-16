@@ -1,5 +1,6 @@
 import 'package:contact_app/routes/app_routes.dart';
 import 'package:contact_app/views/counter/provider/counter_provider.dart';
+import 'package:contact_app/views/home_page/provider/home_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -21,6 +22,9 @@ class _MyAppState extends State<MyApp> {
       providers: [
         ChangeNotifierProvider.value(
           value: CounterProvider(),
+        ),
+        ChangeNotifierProvider.value(
+          value: HomeProvider(),
         ),
       ],
       child: MaterialApp(

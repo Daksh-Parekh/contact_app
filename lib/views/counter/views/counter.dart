@@ -1,6 +1,5 @@
-import 'package:contact_app/main.dart';
-import 'package:contact_app/util/extensions.dart';
 import 'package:contact_app/utils/app_theme.dart';
+import 'package:contact_app/utils/extensions.dart';
 import 'package:contact_app/views/counter/provider/counter_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
