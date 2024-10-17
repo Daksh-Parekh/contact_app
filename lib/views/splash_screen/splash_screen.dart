@@ -1,4 +1,5 @@
 import 'package:contact_app/routes/app_routes.dart';
+import 'package:contact_app/utils/helper/shr_helper.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -11,12 +12,24 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
-    Future.delayed(
-      Duration(seconds: 3),
-      () {
-        Navigator.pushReplacementNamed(context, AppRoutes.homePage);
+    ShrHelper shr = ShrHelper();
+    shr.readIntroScreen().then(
+      (value) {
+        if (value == true) {
+          Future.delayed(Duration(seconds: 3), () {
+            Navigator.pushNamed(context, AppRoutes.introPage);
+          });
+        } else {
+          Future.delayed(
+            Duration(seconds: 3),
+            () {
+              Navigator.pushNamed(context, AppRoutes.homePage);
+            },
+          );
+        }
       },
     );
+
     super.initState();
   }
 

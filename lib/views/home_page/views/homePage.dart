@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:contact_app/routes/app_routes.dart';
 import 'package:contact_app/views/home_page/provider/home_provider.dart';
 import 'package:flutter/material.dart';
