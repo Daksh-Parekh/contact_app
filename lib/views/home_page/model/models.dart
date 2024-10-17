@@ -1,9 +1,7 @@
+import 'dart:io';
+
 class ContactModel {
-  String name, email, contact;
-  String image;
-  ContactModel(
-      {required this.name,
-      required this.email,
-      required this.contact,
-      required this.image});
+  String? name, email, contact;
+  File? image;
+  ContactModel({this.name, this.email, this.contact, this.image});
 }

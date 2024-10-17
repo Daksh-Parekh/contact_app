@@ -23,21 +23,30 @@ class _HomePageState extends State<HomePage> {
         itemCount: context.watch<HomeProvider>().allContacts.length,
         itemBuilder: (context, index) {
           return ListTile(
+            onTap: () {
+              context.read<HomeProvider>().setIndex(index);
+
+              Navigator.pushNamed(context, AppRoutes.detailPage,
+                  arguments: context.read<HomeProvider>().allContacts[index]);
+            },
+            onLongPress: () {
+              context.read<HomeProvider>().deleteContact(index);
+            },
             leading: CircleAvatar(
               foregroundImage: FileImage(
-                File(context.watch<HomeProvider>().allContacts[index].image),
-              ),
+                  context.watch<HomeProvider>().allContacts[index].image!),
             ),
-            title: Text(context.watch<HomeProvider>().allContacts[index].name),
+            title: Text(context
+                .watch<HomeProvider>()
+                .allContacts[index]
+                .name
+                .toString()),
             subtitle:
-                Text(context.watch<HomeProvider>().allContacts[index].contact),
+                Text(context.watch<HomeProvider>().allContacts[index].contact!),
             trailing: IconButton(
               onPressed: () {},
               icon: const Icon(Icons.arrow_forward_ios_rounded),
             ),
-            onLongPress: () {
-              context.read<HomeProvider>().deleteContact(index);
-            },
           );
         },
       ),

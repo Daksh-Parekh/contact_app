@@ -18,7 +18,7 @@ class AddContactPage extends StatefulWidget {
 }
 
 class _AddContactPageState extends State<AddContactPage> {
-  String? image;
+  File? image;
   int setIndex = 0;
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
@@ -49,8 +49,7 @@ class _AddContactPageState extends State<AddContactPage> {
               children: [
                 CircleAvatar(
                   radius: 80,
-                  foregroundImage:
-                      image != null ? FileImage(File(image!)) : null,
+                  foregroundImage: image != null ? FileImage(image!) : null,
                 ),
                 FloatingActionButton.small(
                   onPressed: () async {
@@ -59,7 +58,7 @@ class _AddContactPageState extends State<AddContactPage> {
                         await picker.pickImage(source: ImageSource.gallery);
                     if (file != null) {
                       log("Image received");
-                      image = file.path;
+                      image = File(file.path);
                       // image = File(file.path);
                       setState(() {});
                     } else {
@@ -125,7 +124,7 @@ class _AddContactPageState extends State<AddContactPage> {
                   String name = nameController.text;
                   String email = emailController.text;
                   String contact = contactController.text;
-                  String img = image ?? "";
+                  File? img = image != null ? File(image!.path) : null;
 
                   ContactModel model = ContactModel(
                       name: name, email: email, contact: contact, image: img);
@@ -168,7 +167,7 @@ class _AddContactPageState extends State<AddContactPage> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          Navigator.pushNamed(context, AppRoutes.counterProvider);
+          Navigator.pushNamed(context, AppRoutes.counter);
         },
         icon: const Icon(Icons.add),
         label: const Text("Add"),
