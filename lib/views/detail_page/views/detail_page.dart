@@ -1,10 +1,14 @@
+import 'dart:developer';
 import 'dart:io';
 
+import 'package:contact_app/routes/app_routes.dart';
 import 'package:contact_app/utils/extensions.dart';
 import 'package:contact_app/views/home_page/model/models.dart';
 import 'package:contact_app/views/home_page/provider/home_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DetailPage extends StatefulWidget {
   const DetailPage({super.key});
@@ -28,10 +32,24 @@ class _DetailPageState extends State<DetailPage> {
         title: Text("Detail Page"),
         actions: [
           IconButton(
+            onPressed: () async {
+              await Share.share('${models.name}\n${models.contact}');
+            },
+            icon: Icon(Icons.share),
+          ),
+          IconButton(
             onPressed: () {
-              nameController.text = models.name!;
-              emailController.text = models.email!;
-              contactController.text = models.contact!;
+              context.read<HomeProvider>().hideContact(models);
+              Navigator.pop(context);
+              // Navigator.pushNamed(context, AppRoutes.hidePage);
+            },
+            icon: Icon(Icons.lock),
+          ),
+          IconButton(
+            onPressed: () {
+              nameController.text = models.name ?? "";
+              emailController.text = models.email ?? "";
+              contactController.text = models.contact ?? "";
               imgs = models.image;
               showDialog(
                 context: context,
@@ -112,19 +130,45 @@ class _DetailPageState extends State<DetailPage> {
       ),
       body: Column(
         children: [
-          CircleAvatar(radius: 80, foregroundImage: FileImage(models.image!)),
+          models.image == null
+              ? CircleAvatar(
+                  radius: 60,
+                  child: Text(
+                    models.name!.substring(0, 1).toUpperCase(),
+                    style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
+                  ),
+                )
+              : CircleAvatar(
+                  radius: 60, foregroundImage: FileImage(models.image!)),
           ListTile(
             leading: Icon(Icons.person),
             title: Text(models.name!),
-            // trailing: Icon(Icons.person_search_rounded),
+            trailing: IconButton(
+              onPressed: () async {
+                await launchUrl(Uri.parse('sms:${models.contact}'));
+              },
+              icon: Icon(Icons.sms_rounded),
+            ),
           ),
           ListTile(
             leading: Icon(Icons.email_rounded),
             title: Text(models.email!),
+            trailing: IconButton(
+              onPressed: () async {
+                await launchUrl(Uri.parse("mailto:${models.email}"));
+              },
+              icon: Icon(Icons.mark_email_read_outlined),
+            ),
           ),
           ListTile(
             leading: Icon(Icons.contact_phone_rounded),
             title: Text(models.contact!),
+            trailing: IconButton(
+              onPressed: () async {
+                await launchUrl(Uri.parse("tel:${models.contact}"));
+              },
+              icon: Icon(Icons.phone),
+            ),
           ),
         ],
       ),

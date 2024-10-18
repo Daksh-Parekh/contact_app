@@ -16,6 +16,14 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Home Page"),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.pushNamed(context, AppRoutes.hidePage);
+            },
+            icon: Icon(Icons.lock),
+          ),
+        ],
       ),
       body: ListView.builder(
         itemCount: context.watch<HomeProvider>().allContacts.length,
@@ -30,10 +38,15 @@ class _HomePageState extends State<HomePage> {
             onLongPress: () {
               context.read<HomeProvider>().deleteContact(index);
             },
-            leading: CircleAvatar(
-              foregroundImage: FileImage(
-                  context.watch<HomeProvider>().allContacts[index].image!),
-            ),
+            leading:
+                context.watch<HomeProvider>().allContacts[index].image == null
+                    ? CircleAvatar()
+                    : CircleAvatar(
+                        foregroundImage: FileImage(context
+                            .watch<HomeProvider>()
+                            .allContacts[index]
+                            .image!),
+                      ),
             title: Text(context
                 .watch<HomeProvider>()
                 .allContacts[index]

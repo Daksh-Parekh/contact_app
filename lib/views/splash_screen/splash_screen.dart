@@ -17,13 +17,13 @@ class _SplashScreenState extends State<SplashScreen> {
       (value) {
         if (value == true) {
           Future.delayed(Duration(seconds: 3), () {
-            Navigator.pushNamed(context, AppRoutes.introPage);
+            Navigator.pushReplacementNamed(context, AppRoutes.introPage);
           });
         } else {
           Future.delayed(
             Duration(seconds: 3),
             () {
-              Navigator.pushNamed(context, AppRoutes.homePage);
+              Navigator.pushReplacementNamed(context, AppRoutes.homePage);
             },
           );
         }

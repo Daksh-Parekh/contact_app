@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 
 class HomeProvider with ChangeNotifier {
   int selectedIndex = 0;
-  List<ContactModel> allContacts = [];
+  List<ContactModel> allContacts = [
+    ContactModel(contact: "87498784", email: "dazx@gmail.com", name: "dax"),
+  ];
+  List<ContactModel> hideContacts = [];
 
   void addContact(ContactModel modes) {
     allContacts.add(modes);
@@ -22,5 +25,22 @@ class HomeProvider with ChangeNotifier {
 
   void setIndex(int index) {
     selectedIndex = index;
+  }
+
+  void hideContact(ContactModel models) {
+    hideContacts.add(models);
+    allContacts.removeAt(selectedIndex);
+    notifyListeners();
+  }
+
+  void unlockContatc(ContactModel model) {
+    allContacts.add(model);
+    hideContacts.removeAt(selectedIndex);
+    notifyListeners();
+  }
+
+  void updateHideContact(ContactModel model) {
+    hideContacts[selectedIndex] = model;
+    notifyListeners();
   }
 }
