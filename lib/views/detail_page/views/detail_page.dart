@@ -1,7 +1,5 @@
-import 'dart:developer';
 import 'dart:io';
 
-import 'package:contact_app/routes/app_routes.dart';
 import 'package:contact_app/utils/extensions.dart';
 import 'package:contact_app/views/home_page/model/models.dart';
 import 'package:contact_app/views/home_page/provider/home_provider.dart';

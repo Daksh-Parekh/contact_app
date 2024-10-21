@@ -1,5 +1,6 @@
 import 'package:contact_app/views/home_page/model/models.dart';
 import 'package:flutter/material.dart';
+import 'package:local_auth/local_auth.dart';
 
 class HomeProvider with ChangeNotifier {
   int selectedIndex = 0;
@@ -42,5 +43,25 @@ class HomeProvider with ChangeNotifier {
   void updateHideContact(ContactModel model) {
     hideContacts[selectedIndex] = model;
     notifyListeners();
+  }
+
+  Future<bool> openHideContact() async {
+    LocalAuthentication authn = LocalAuthentication();
+
+    bool isBiometricCheck = await authn.canCheckBiometrics;
+    bool isDeviceSupport = await authn.isDeviceSupported();
+
+    if (isBiometricCheck && isDeviceSupport) {
+      List<BiometricType> availableBiometric =
+          await authn.getAvailableBiometrics();
+
+      if (availableBiometric.isEmpty) {
+        return false;
+      } else {
+        return await authn.authenticate(localizedReason: "Done");
+      }
+    } else {
+      return false;
+    }
   }
 }

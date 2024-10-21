@@ -18,8 +18,17 @@ class _HomePageState extends State<HomePage> {
         title: Text("Home Page"),
         actions: [
           IconButton(
-            onPressed: () {
-              Navigator.pushNamed(context, AppRoutes.hidePage);
+            onPressed: () async {
+              bool isLock =
+                  await context.read<HomeProvider>().openHideContact();
+
+              if (isLock) {
+                Navigator.pushNamed(context, AppRoutes.hidePage);
+              } else {
+                ScaffoldMessenger.of(context)
+                    .showSnackBar(SnackBar(content: Text("Unsuccessful")));
+              }
+              // Navigator.pushNamed(context, AppRoutes.hidePage);
             },
             icon: Icon(Icons.lock),
           ),
@@ -32,8 +41,11 @@ class _HomePageState extends State<HomePage> {
             onTap: () {
               context.read<HomeProvider>().setIndex(index);
 
-              Navigator.pushNamed(context, AppRoutes.detailPage,
-                  arguments: context.read<HomeProvider>().allContacts[index]);
+              Navigator.pushNamed(
+                context, AppRoutes.detailPage,
+                arguments: context.read<HomeProvider>().allContacts[index],
+                // context.read<HomeProvider>().pages
+              );
             },
             onLongPress: () {
               context.read<HomeProvider>().deleteContact(index);
