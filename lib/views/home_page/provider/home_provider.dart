@@ -4,9 +4,7 @@ import 'package:local_auth/local_auth.dart';
 
 class HomeProvider with ChangeNotifier {
   int selectedIndex = 0;
-  List<ContactModel> allContacts = [
-    ContactModel(contact: "87498784", email: "dazx@gmail.com", name: "dax"),
-  ];
+  List<ContactModel> allContacts = [];
   List<ContactModel> hideContacts = [];
 
   void addContact(ContactModel modes) {

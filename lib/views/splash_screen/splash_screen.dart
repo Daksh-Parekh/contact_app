@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:contact_app/routes/app_routes.dart';
 import 'package:contact_app/utils/helper/shr_helper.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +19,7 @@ class _SplashScreenState extends State<SplashScreen> {
       (value) {
         if (value == true) {
           Future.delayed(Duration(seconds: 3), () {
-            Navigator.pushReplacementNamed(context, AppRoutes.introPage);
+            Navigator.pushReplacementNamed(context, AppRoutes.homePage);
           });
         } else {
           Future.delayed(
@@ -36,11 +38,10 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Center(
-        child: Container(
-          color: Colors.blue,
-          height: 200,
-          width: 200,
+        child: Image.asset(
+          'lib/utils/images/splash.gif',
         ),
       ),
     );

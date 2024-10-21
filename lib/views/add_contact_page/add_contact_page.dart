@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:contact_app/routes/app_routes.dart';
+import 'package:contact_app/utils/app_theme.dart';
 import 'package:contact_app/utils/extensions.dart';
 import 'package:contact_app/views/home_page/model/models.dart';
 import 'package:contact_app/views/home_page/provider/home_provider.dart';
@@ -43,7 +44,10 @@ class _AddContactPageState extends State<AddContactPage> {
         },
         steps: [
           Step(
-            title: Text("Add Photo"),
+            title: Text(
+              "Add Photo",
+              style: AppTheme.LightTheme.textTheme.displayLarge,
+            ),
             content: Stack(
               alignment: Alignment.bottomRight,
               children: [
@@ -71,7 +75,10 @@ class _AddContactPageState extends State<AddContactPage> {
             ),
           ),
           Step(
-            title: Text("Conatct Info"),
+            title: Text(
+              "Conatct Info",
+              style: AppTheme.LightTheme.textTheme.displayLarge,
+            ),
             content: Form(
               key: formKey,
               child: Column(
@@ -116,7 +123,10 @@ class _AddContactPageState extends State<AddContactPage> {
             ),
           ),
           Step(
-            title: Text("SAVE"),
+            title: Text(
+              "SAVE",
+              style: AppTheme.LightTheme.textTheme.displayLarge,
+            ),
             content: ElevatedButton(
               onPressed: () {
                 bool vadiateForm = formKey.currentState!.validate();
@@ -160,7 +170,10 @@ class _AddContactPageState extends State<AddContactPage> {
                   );
                 }
               },
-              child: Text("SAVE"),
+              child: Text(
+                "SAVE",
+                style: TextStyle(color: Colors.white),
+              ),
             ),
           ),
         ],

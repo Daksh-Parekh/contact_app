@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:contact_app/utils/app_theme.dart';
 import 'package:contact_app/utils/extensions.dart';
 import 'package:contact_app/views/home_page/model/models.dart';
 import 'package:contact_app/views/home_page/provider/home_provider.dart';
@@ -49,78 +50,7 @@ class _DetailPageState extends State<DetailPage> {
               emailController.text = models.email ?? "";
               contactController.text = models.contact ?? "";
               imgs = models.image;
-              showDialog(
-                context: context,
-                builder: (context) {
-                  return AlertDialog(
-                    title: Text("Update Details..."),
-                    content: SingleChildScrollView(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          TextField(
-                            controller: nameController,
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                            ),
-                          ),
-                          10.h,
-                          TextField(
-                            controller: emailController,
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                            ),
-                          ),
-                          10.h,
-                          TextField(
-                            controller: contactController,
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    actions: [
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: Text(
-                          "Cancel",
-                          style: TextStyle(
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                      ElevatedButton(
-                        onPressed: () {
-                          ContactModel model = ContactModel(
-                              image: imgs,
-                              name: nameController.text,
-                              email: emailController.text,
-                              contact: contactController.text);
-
-                          context.read<HomeProvider>().updateContact(model);
-                          Navigator.pop(context);
-                        },
-                        child: Text(
-                          "Update",
-                          style: TextStyle(
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ],
-                  );
-                },
-              );
+              dialog(context);
             },
             icon: Icon(Icons.edit),
           ),
@@ -128,6 +58,7 @@ class _DetailPageState extends State<DetailPage> {
       ),
       body: Column(
         children: [
+          50.h,
           models.image == null
               ? CircleAvatar(
                   radius: 60,
@@ -138,38 +69,128 @@ class _DetailPageState extends State<DetailPage> {
                 )
               : CircleAvatar(
                   radius: 60, foregroundImage: FileImage(models.image!)),
+          8.h,
+          Text(
+            models.name!,
+            style: AppTheme.LightTheme.textTheme.displayLarge,
+          ),
+          12.h,
           ListTile(
-            leading: Icon(Icons.person),
-            title: Text(models.name!),
-            trailing: IconButton(
-              onPressed: () async {
-                await launchUrl(Uri.parse('sms:${models.contact}'));
-              },
-              icon: Icon(Icons.sms_rounded),
+            leading: Icon(
+              Icons.email_rounded,
+              size: 24,
+            ),
+            title: Text(
+              models.email!,
+              style: AppTheme.LightTheme.textTheme.displaySmall,
             ),
           ),
+          4.h,
           ListTile(
-            leading: Icon(Icons.email_rounded),
-            title: Text(models.email!),
-            trailing: IconButton(
-              onPressed: () async {
-                await launchUrl(Uri.parse("mailto:${models.email}"));
-              },
-              icon: Icon(Icons.mark_email_read_outlined),
+            title: Text(
+              "+91 ${models.contact!}",
+              style: AppTheme.LightTheme.textTheme.displayLarge,
             ),
-          ),
-          ListTile(
-            leading: Icon(Icons.contact_phone_rounded),
-            title: Text(models.contact!),
-            trailing: IconButton(
-              onPressed: () async {
-                await launchUrl(Uri.parse("tel:${models.contact}"));
-              },
-              icon: Icon(Icons.phone),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                IconButton.filledTonal(
+                  onPressed: () async {
+                    await launchUrl(Uri.parse("tel:${models.contact}"));
+                  },
+                  icon: Icon(Icons.phone),
+                ),
+                IconButton.filledTonal(
+                  onPressed: () async {
+                    await launchUrl(Uri.parse("mailto:${models.email}"));
+                  },
+                  icon: Icon(Icons.email_rounded),
+                ),
+                IconButton.filledTonal(
+                    onPressed: () async {
+                      await launchUrl(Uri.parse('sms:${models.contact}'));
+                    },
+                    icon: Icon(Icons.sms_rounded))
+              ],
             ),
           ),
         ],
       ),
+    );
+  }
+
+  Future<dynamic> dialog(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text("Update Details..."),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextField(
+                  controller: nameController,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                ),
+                10.h,
+                TextField(
+                  controller: emailController,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                ),
+                10.h,
+                TextField(
+                  controller: contactController,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text(
+                "Cancel",
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                ContactModel model = ContactModel(
+                    image: imgs,
+                    name: nameController.text,
+                    email: emailController.text,
+                    contact: contactController.text);
+
+                context.read<HomeProvider>().updateContact(model);
+                Navigator.pop(context);
+              },
+              child: Text(
+                "Update",
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }

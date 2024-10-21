@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:contact_app/routes/app_routes.dart';
+import 'package:contact_app/utils/app_theme.dart';
 import 'package:contact_app/utils/extensions.dart';
-import 'package:contact_app/views/add_contact_page/add_contact_page.dart';
 import 'package:contact_app/views/home_page/model/models.dart';
 import 'package:contact_app/views/home_page/provider/home_provider.dart';
 import 'package:flutter/material.dart';
@@ -24,13 +24,10 @@ class _HidePageState extends State<HidePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Hide Page"),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.lock_open_rounded),
-          ),
-        ],
+        title: Text(
+          "Hide Page",
+          style: AppTheme.LightTheme.textTheme.titleLarge,
+        ),
       ),
       body: ListView.builder(
         itemCount: context.watch<HomeProvider>().hideContacts.length,
@@ -46,13 +43,19 @@ class _HidePageState extends State<HidePage> {
               Navigator.pushNamed(context, AppRoutes.detailPage,
                   arguments: context.read<HomeProvider>().hideContacts[index]);
             },
-            onLongPress: () {
-              dialog(index, mod);
-            },
+            onLongPress: () {},
             leading:
                 context.watch<HomeProvider>().hideContacts[index].image == null
                     ? CircleAvatar(
-                        child: Text("A"),
+                        child: Text(
+                          context
+                              .watch<HomeProvider>()
+                              .hideContacts[index]
+                              .name!
+                              .substring(0, 1)
+                              .toUpperCase(),
+                          style: AppTheme.LightTheme.textTheme.displayLarge,
+                        ),
                       )
                     : CircleAvatar(
                         foregroundImage: FileImage(context
@@ -60,20 +63,31 @@ class _HidePageState extends State<HidePage> {
                             .hideContacts[index]
                             .image!),
                       ),
-            title: Text(context
-                .watch<HomeProvider>()
-                .hideContacts[index]
-                .name
-                .toString()),
+            title: Text(
+              context.watch<HomeProvider>().hideContacts[index].name.toString(),
+              style: AppTheme.LightTheme.textTheme.displayLarge,
+            ),
             subtitle: Text(
-                context.watch<HomeProvider>().hideContacts[index].contact!),
-            trailing: IconButton(
-              onPressed: () {
-                context.read<HomeProvider>().setIndex(index);
-                context.read<HomeProvider>().unlockContatc(mod);
-                // Navigator.pop(context);
-              },
-              icon: const Icon(Icons.arrow_forward_ios_rounded),
+              context.watch<HomeProvider>().hideContacts[index].contact!,
+              style: AppTheme.LightTheme.textTheme.displayMedium,
+            ),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                IconButton.filledTonal(
+                  onPressed: () {
+                    context.read<HomeProvider>().setIndex(index);
+                    context.read<HomeProvider>().unlockContatc(mod);
+                  },
+                  icon: const Icon(Icons.lock_open_rounded),
+                ),
+                IconButton.filledTonal(
+                  onPressed: () {
+                    dialog(index, mod);
+                  },
+                  icon: Icon(Icons.edit),
+                ),
+              ],
             ),
           );
         },
